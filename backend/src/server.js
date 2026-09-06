@@ -34,6 +34,7 @@ app.use(cookieParser());
 app.use(morgan(env.nodeEnv === 'production' ? 'combined' : 'dev'));
 app.use(generalApiLimiter);
 
+app.get('/', (req, res) => res.json({ ok: true, service: 'awqaf-sweida-api', health: '/health' }));
 app.get('/health', (req, res) => res.json({ ok: true, time: new Date().toISOString() }));
 
 app.use('/api', routes);
