@@ -11,6 +11,14 @@ function required(name) {
   return v;
 }
 
+function normalizeCorsOrigin(value) {
+  try {
+    return new URL(value).origin;
+  } catch {
+    return value.replace(/\/$/, '');
+  }
+}
+
 module.exports = {
   nodeEnv: process.env.NODE_ENV || 'development',
   port: parseInt(process.env.PORT || '4000', 10),
@@ -20,7 +28,7 @@ module.exports = {
   jwtRefreshSecret: required('JWT_REFRESH_SECRET'),
   jwtAccessExpiresMin: parseInt(process.env.JWT_ACCESS_EXPIRES_MIN || '15', 10),
   jwtRefreshExpiresDays: parseInt(process.env.JWT_REFRESH_EXPIRES_DAYS || '7', 10),
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  corsOrigin: normalizeCorsOrigin(process.env.CORS_ORIGIN || 'http://localhost:5173'),
   maxLoginAttempts: parseInt(process.env.MAX_LOGIN_ATTEMPTS || '5', 10),
   lockoutMinutes: parseInt(process.env.LOCKOUT_MINUTES || '15', 10),
   trustProxy: process.env.TRUST_PROXY === '1',
